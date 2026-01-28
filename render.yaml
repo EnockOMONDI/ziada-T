@@ -42,7 +42,7 @@ services:
       - key: DEBUG
         value: False
       - key: ALLOWED_HOSTS
-        value: ziadatravel.onrender.com,.onrender.com,www.ziadatravel.onrender.com 
+        value: ziadatravel.onrender.com,.onrender.com,www.ziadatoursandtravel.com
       - key: DATABASE_URL
         fromDatabase:
           name: ziadatravel-db
