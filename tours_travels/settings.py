@@ -106,7 +106,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_PROVIDER = config("EMAIL_PROVIDER", default="smtp")
 DEFAULT_FROM_EMAIL = config(
-    "DEFAULT_FROM_EMAIL", default="Ziada Tours and Travel.com <info@ziadatoursandtravel.com>"
+    "DEFAULT_FROM_EMAIL", default="Ziada Tours and Travel <info@ziadatoursandtravel.com>"
 )
 ADMIN_EMAIL = config("ADMIN_EMAIL", default="info@ziadatoursandtravel.com")
 EXTRA_EMAIL_RECIPIENTS = config(

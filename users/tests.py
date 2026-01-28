@@ -8,7 +8,7 @@ from .models import ContactInquiry
 @override_settings(
     EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend",
     EMAIL_PROVIDER="smtp",
-    DEFAULT_FROM_EMAIL="Ziada Tours and Travel.com <info@ziadatoursandtravel.com>",
+    DEFAULT_FROM_EMAIL="Ziada Tours and Travel <info@ziadatoursandtravel.com>",
     ADMIN_EMAIL="info@ziadatoursandtravel.com",
 )
 class ContactInquiryEmailTests(TestCase):
@@ -42,4 +42,4 @@ class ContactInquiryEmailTests(TestCase):
         self.assertIn("info@ziadatoursandtravel.com", to_addresses)
 
         for email in mail.outbox:
-            self.assertEqual(email.from_email, "Ziada Tours and Travel.com <info@ziadatoursandtravel.com>")
+            self.assertEqual(email.from_email, "Ziada Tours and Travel <info@ziadatoursandtravel.com>")
