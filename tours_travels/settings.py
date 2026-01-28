@@ -1,19 +1,17 @@
 from pathlib import Path
 
 from decouple import config
+from dotenv import load_dotenv
 import dj_database_url
 from . import admin_nav
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / ".env")
 
 SECRET_KEY = config('SECRET_KEY', default='change-me')
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-allowed_hosts = config('ALLOWED_HOSTS', default='')
-if allowed_hosts:
-    ALLOWED_HOSTS = [host.strip() for host in allowed_hosts.split(',') if host.strip()]
-else:
-    ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     'unfold',
@@ -66,21 +64,37 @@ TEMPLATES = [
 WSGI_APPLICATION = 'tours_travels.wsgi.application'
 
 DATABASE_URL = config('DATABASE_URL', default='')
+DB_CONN_MAX_AGE = config('DB_CONN_MAX_AGE', default=600, cast=int)
+DB_CONN_HEALTH_CHECKS = config('DB_CONN_HEALTH_CHECKS', default=True, cast=bool)
 if DATABASE_URL:
     DATABASES = {
         'default': dj_database_url.parse(
             DATABASE_URL,
-            conn_max_age=600,
-            conn_health_checks=True,
+            conn_max_age=DB_CONN_MAX_AGE,
+            conn_health_checks=DB_CONN_HEALTH_CHECKS,
         )
     }
 else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+    db_name = config('DB_NAME', default='')
+    if db_name:
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': db_name,
+                'USER': config('DB_USER', default=''),
+                'PASSWORD': config('DB_PASSWORD', default=''),
+                'HOST': config('DB_HOST', default=''),
+                'PORT': config('DB_PORT', default=''),
+                'CONN_MAX_AGE': DB_CONN_MAX_AGE,
+            }
         }
-    }
+    else:
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -90,7 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+TIME_ZONE = config('TIME_ZONE', default='UTC')
 USE_I18N = True
 USE_TZ = True
 
@@ -106,14 +120,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_PROVIDER = config("EMAIL_PROVIDER", default="smtp")
 DEFAULT_FROM_EMAIL = config(
-    "DEFAULT_FROM_EMAIL", default="Ziada Tours and Travel <info@ziadatoursandtravel.com>"
+    "DEFAULT_FROM_EMAIL", default="Ziada Tours and Travel.com <info@ziadatoursandtravel.com>"
 )
 ADMIN_EMAIL = config("ADMIN_EMAIL", default="info@ziadatoursandtravel.com")
+JOBS_EMAIL = config("JOBS_EMAIL", default=ADMIN_EMAIL)
+NEWSLETTER_EMAIL = config("NEWSLETTER_EMAIL", default=ADMIN_EMAIL)
 EXTRA_EMAIL_RECIPIENTS = config(
     "EXTRA_EMAIL_RECIPIENTS",
     default="",
 ).split(",")
 SITE_URL = config("SITE_URL", default="http://127.0.0.1:8000")
+WHATSAPP_PHONE = config("WHATSAPP_PHONE", default="")
 MAILTRAP_API_TOKEN = config("MAILTRAP_API_TOKEN", default="")
 
 EMAIL_HOST = config("EMAIL_HOST", default="smtp-relay.brevo.com")
@@ -121,6 +138,17 @@ EMAIL_PORT = config("EMAIL_PORT", default=587, cast=int)
 EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="")
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="")
 EMAIL_USE_TLS = config("EMAIL_USE_TLS", default=True, cast=bool)
+
+EMAIL_RATE_LIMIT_PER_MINUTE = config("EMAIL_RATE_LIMIT_PER_MINUTE", default=10, cast=int)
+EMAIL_RATE_LIMIT_PER_HOUR = config("EMAIL_RATE_LIMIT_PER_HOUR", default=100, cast=int)
+
+GOOGLE_ANALYTICS_ID = config("GOOGLE_ANALYTICS_ID", default="")
+GOOGLE_TAG_MANAGER_ID = config("GOOGLE_TAG_MANAGER_ID", default="")
+ENABLE_ANALYTICS = config("ENABLE_ANALYTICS", default=False, cast=bool)
+ANALYTICS_TRACK_ADMIN = config("ANALYTICS_TRACK_ADMIN", default=False, cast=bool)
+
+UPLOADCARE_PUBLIC_KEY = config("UPLOADCARE_PUBLIC_KEY", default="")
+UPLOADCARE_SECRET_KEY = config("UPLOADCARE_SECRET_KEY", default="")
 
 CKEDITOR_5_CONFIGS = {
     "default": {
