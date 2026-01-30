@@ -3,26 +3,12 @@
 {% block title %}Package Details | Ziada Tours{% endblock %}
 
 {% block nav %}
-    <nav class="fixed w-full z-50 glass top-0 left-0">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-24">
-                <a href="{% url 'home' %}" class="flex items-center cursor-pointer">
-                    <img src="{% static 'ziada-logo.png' %}" alt="Ziada Tours & Travels" class="h-20 w-auto object-contain" />
-                </a>
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="{% url 'home' %}" class="px-3 py-2 text-sm font-medium transition-colors text-gray-300 hover:text-white">Home</a>
-                        <a href="{% url 'packages' %}" class="px-3 py-2 text-sm font-medium transition-colors text-gray-300 hover:text-white">Safaris & Packages</a>
-                        <a href="{% url 'contact' %}" class="bg-primary hover:bg-orange-600 text-white px-5 py-2 rounded-full text-sm font-bold transition-all transform hover:scale-105">Book Now</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
+    {% include "partials/navbar.html" %}
 {% endblock %}
 
 {% block content %}
     <div class="bg-secondary min-h-screen pt-20" id="detail-content">
+        <br><br><br>
         <div class="relative h-[60vh] md:h-[70vh] overflow-hidden">
             <img id="pkg-image" src="{{ package.image_url }}" alt="Package Image" class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-t from-secondary via-secondary/40 to-transparent"></div>

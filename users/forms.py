@@ -33,7 +33,7 @@ class ContactForm(forms.ModelForm):
         self.fields["full_name"].widget.attrs.update(
             {
                 "class": "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary outline-none",
-                "placeholder": "John Doe",
+                "placeholder": "Brian Otieno",
             }
         )
 
@@ -41,7 +41,7 @@ class ContactForm(forms.ModelForm):
         self.fields["email"].widget.attrs.update(
             {
                 "class": "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary outline-none",
-                "placeholder": "john@example.com",
+                "placeholder": "brian.otieno@gmail.com",
             }
         )
 
@@ -49,7 +49,7 @@ class ContactForm(forms.ModelForm):
         self.fields["phone"].widget.attrs.update(
             {
                 "class": "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary outline-none",
-                "placeholder": "Phone (optional)",
+                "placeholder": "07XX XXX XXX (optional)",
             }
         )
 
@@ -57,7 +57,7 @@ class ContactForm(forms.ModelForm):
         self.fields["company"].widget.attrs.update(
             {
                 "class": "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary outline-none",
-                "placeholder": "Company (optional)",
+                "placeholder": "Ziada Holdings (optional)",
             }
         )
 
@@ -72,7 +72,7 @@ class ContactForm(forms.ModelForm):
         self.fields["message"].widget.attrs.update(
             {
                 "class": "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary outline-none",
-                "placeholder": "Tell us about your dream trip...",
+                "placeholder": "E.g. 5-day Maasai Mara safari for a family of 4, travel dates in June.",
                 "rows": 4,
             }
         )

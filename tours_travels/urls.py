@@ -7,6 +7,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('ckeditor5/', include('django_ckeditor_5.urls')),
     path('', include('adminside.urls')),
+    path('news/', include('blog.urls')),
 ]
 
 admin.site.site_header = "Ziada Travel Admin"

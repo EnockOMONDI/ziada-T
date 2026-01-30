@@ -3,44 +3,13 @@
 {% block title %}Safaris & Packages | Ziada Tours{% endblock %}
 
 {% block nav %}
-    <nav class="fixed w-full z-50 glass top-0 left-0">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-24">
-                <a href="{% url 'home' %}" class="flex items-center cursor-pointer">
-                    <img src="{% static 'ziada-logo.png' %}" alt="Ziada Tours & Travels" class="h-20 w-auto object-contain" />
-                </a>
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="{% url 'home' %}" class="px-3 py-2 text-sm font-medium transition-colors text-gray-300 hover:text-white">Home</a>
-                        <a href="{% url 'packages' %}" class="px-3 py-2 text-sm font-medium transition-colors text-primary">Safaris & Packages</a>
-                        <a href="{% url 'hotels' %}" class="px-3 py-2 text-sm font-medium transition-colors text-gray-300 hover:text-white">Luxury Hotels</a>
-                        <a href="{% url 'about' %}" class="px-3 py-2 text-sm font-medium transition-colors text-gray-300 hover:text-white">About Us</a>
-                        <a href="{% url 'contact' %}" class="px-3 py-2 text-sm font-medium transition-colors text-gray-300 hover:text-white">Contact</a>
-                        <a href="{% url 'contact' %}" class="bg-primary hover:bg-orange-600 text-white px-5 py-2 rounded-full text-sm font-bold transition-all transform hover:scale-105">Book Now</a>
-                    </div>
-                </div>
-                <div class="md:hidden">
-                    <button id="mobile-menu-btn" class="text-gray-400 hover:text-white focus:outline-none">
-                        <i class="fa-solid fa-bars text-2xl"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div id="mobile-menu" class="hidden md:hidden glass border-t border-white/10">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="{% url 'home' %}" class="block w-full text-left px-3 py-2 text-base font-medium text-gray-300 hover:text-white">Home</a>
-                <a href="{% url 'packages' %}" class="block w-full text-left px-3 py-2 text-base font-medium text-primary">Safaris & Packages</a>
-                <a href="{% url 'hotels' %}" class="block w-full text-left px-3 py-2 text-base font-medium text-gray-300 hover:text-white">Luxury Hotels</a>
-                <a href="{% url 'about' %}" class="block w-full text-left px-3 py-2 text-base font-medium text-gray-300 hover:text-white">About Us</a>
-                <a href="{% url 'contact' %}" class="block w-full text-left px-3 py-2 text-base font-medium text-gray-300 hover:text-white">Contact</a>
-            </div>
-        </div>
-    </nav>
+    {% include "partials/navbar.html" %}
 {% endblock %}
 
 {% block content %}
     <div class="pt-24 pb-12 bg-[#0c0c0c] min-h-screen">
         <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <br><br><br>
             <div class="mb-12">
                 <h1 class="text-4xl md:text-5xl font-serif font-black text-white leading-tight">All Packages</h1>
                 <div class="w-24 h-1 bg-primary mt-6"></div>
