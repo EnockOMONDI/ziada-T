@@ -89,12 +89,24 @@
             }
 
             if (sendBtn && input) {
+                const whatsappNumber = '254706625612';
                 const send = () => {
                     const text = input.value.trim();
                     if (!text) return;
                     addMessage(text, 'user');
                     input.value = '';
-                    addMessage('Thanks! A travel expert will reply soon.', 'model');
+
+                    const encodedMessage = encodeURIComponent(
+                        `Hello Ziada, ${text}\n\nFrom: ${window.location.href}`
+                    );
+                    const waUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+                    const popup = window.open(waUrl, '_blank');
+
+                    if (!popup) {
+                        window.location.href = waUrl;
+                        return;
+                    }
+                    addMessage('Opening WhatsApp so you can send this message.', 'model');
                 };
                 sendBtn.addEventListener('click', send);
                 input.addEventListener('keydown', (e) => {

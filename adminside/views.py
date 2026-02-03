@@ -26,5 +26,9 @@ def about(request):
     return render(request, 'pages/aboutus.html')
 
 
+def corporates(request):
+    return render(request, 'pages/corporates.html')
+
+
 def contact(request):
     return render(request, 'pages/contact.html')

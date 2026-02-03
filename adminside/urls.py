@@ -9,5 +9,6 @@ urlpatterns = [
     path('package/<slug:slug>/', views.package_detail, name='package-detail'),
     path('hotels/', views.hotels, name='hotels'),
     path('about/', views.about, name='about'),
+    path('corporates/', views.corporates, name='corporates'),
     path('contact/', contact_view, name='contact'),
 ]
