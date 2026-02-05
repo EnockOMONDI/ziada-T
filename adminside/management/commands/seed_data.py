@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.utils.text import slugify
 
-from adminside.models import Package, Hotel
+from adminside.models import Package, Hotel, PackageFeature, PackageItineraryDay
 
 
 PACKAGE_DATA = [
@@ -93,13 +93,33 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         for data in PACKAGE_DATA:
             slug = slugify(data["title"])
-            Package.objects.update_or_create(
+            features = data.pop("features", [])
+            itinerary = data.pop("itinerary", [])
+            package, _ = Package.objects.update_or_create(
                 slug=slug,
                 defaults={
                     **data,
                     "slug": slug,
                 },
             )
+            PackageFeature.objects.filter(package=package).delete()
+            PackageItineraryDay.objects.filter(package=package).delete()
+
+            for index, feature in enumerate(features, start=1):
+                PackageFeature.objects.create(
+                    package=package,
+                    text=feature,
+                    sort_order=index,
+                )
+
+            for index, item in enumerate(itinerary, start=1):
+                PackageItineraryDay.objects.create(
+                    package=package,
+                    day_number=item.get("day", index),
+                    title=item.get("title", ""),
+                    description=item.get("description", ""),
+                    sort_order=index,
+                )
 
         for data in HOTEL_DATA:
             slug = slugify(data["name"])

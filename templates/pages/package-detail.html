@@ -42,8 +42,8 @@
                     <section>
                         <h2 class="text-2xl font-serif font-bold text-white mb-6 flex items-center gap-3">Included Features</h2>
                         <div id="pkg-features" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {% for feature in package.features %}
-                            <div class="glass p-4 rounded-xl text-gray-300 text-sm">{{ feature }}</div>
+                            {% for feature in package.feature_items.all %}
+                            <div class="glass p-4 rounded-xl text-gray-300 text-sm">{{ feature.text }}</div>
                             {% empty %}
                             <div class="text-gray-500">No features listed.</div>
                             {% endfor %}
@@ -51,14 +51,26 @@
                     </section>
 
                     <section>
-                        <h2 class="text-2xl font-serif font-bold text-white mb-8 flex items-center gap-3">The Itinerary</h2>
+                        <h2 class="text-2xl font-serif font-bold text-white mb-8 flex items-center gap-3">Itinerary</h2>
                         <div id="pkg-itinerary" class="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-z-10 before:h-full before:w-0.5 before:-translate-x-1/2 before:bg-gradient-to-b before:from-primary before:via-white/5 before:to-transparent">
-                            {% for item in package.itinerary %}
+                            {% for item in package.itinerary_days.all %}
                             <div class="relative flex gap-10">
-                                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-white font-black text-sm z-10">{{ item.day }}</div>
+                                <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-white font-black text-xs z-10 uppercase tracking-wider">Day {{ item.day_number }}</div>
                                 <div class="glass p-6 rounded-2xl flex-grow">
                                     <h4 class="text-lg font-bold text-white mb-2">{{ item.title }}</h4>
                                     <p class="text-gray-400 text-sm leading-relaxed">{{ item.description }}</p>
+                                    {% if item.inclusions %}
+                                    <div class="mt-5 text-xs text-gray-300">
+                                        <span class="font-bold uppercase tracking-wider text-primary/80">Inclusions</span>
+                                        <div class="mt-1 text-gray-400 leading-relaxed">{{ item.inclusions|linebreaksbr }}</div>
+                                    </div>
+                                    {% endif %}
+                                    {% if item.exclusions %}
+                                    <div class="mt-4 text-xs text-gray-300">
+                                        <span class="font-bold uppercase tracking-wider text-primary/80">Exclusions</span>
+                                        <div class="mt-1 text-gray-400 leading-relaxed">{{ item.exclusions|linebreaksbr }}</div>
+                                    </div>
+                                    {% endif %}
                                 </div>
                             </div>
                             {% empty %}

@@ -12,8 +12,6 @@ class Package(models.Model):
     category = models.CharField(max_length=100, blank=True, default="")
     image_url = models.URLField(blank=True, default="")
     description = CKEditor5Field(config_name="default", blank=True, default="")
-    features = models.JSONField(default=list, blank=True)
-    itinerary = models.JSONField(default=list, blank=True)
     is_featured = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -29,6 +27,34 @@ class Package(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class PackageFeature(models.Model):
+    package = models.ForeignKey(Package, on_delete=models.CASCADE, related_name="feature_items")
+    text = models.CharField(max_length=200)
+    sort_order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["sort_order", "id"]
+
+    def __str__(self):
+        return f"{self.package.title} - {self.text}"
+
+
+class PackageItineraryDay(models.Model):
+    package = models.ForeignKey(Package, on_delete=models.CASCADE, related_name="itinerary_days")
+    day_number = models.PositiveIntegerField()
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True, default="")
+    inclusions = models.TextField(blank=True, default="")
+    exclusions = models.TextField(blank=True, default="")
+    sort_order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["sort_order", "day_number", "id"]
+
+    def __str__(self):
+        return f"{self.package.title} - Day {self.day_number}: {self.title}"
 
 
 class Hotel(models.Model):

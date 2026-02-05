@@ -34,19 +34,13 @@
                                 </div>
                             {% else %}
                                 <div>
-                                    <p class="text-gray-500 text-[9px] uppercase font-black tracking-[0.2em] mb-1">Pricing</p>
-                                    <p class="text-sm font-bold text-primary uppercase tracking-widest">Get Quote</p>
+                                    <p class="text-gray-500 text-[11px] uppercase font-black tracking-[0.2em] mb-1">Pricing</p>
+                                    <p class="text-[11px] font-bold text-primary uppercase tracking-widest">Instant Quote</p>
                                 </div>
                             {% endif %}
-                            {% if pkg.is_featured and pkg.price > 0 %}
-                                <a href="{% url 'package-detail' pkg.slug %}" class="group/btn relative px-6 py-3.5 overflow-hidden rounded-2xl bg-white/5 border border-white/10 text-white font-bold transition-all hover:border-primary hover:bg-primary inline-flex items-center gap-2 decoration-0">
-                                    <span class="relative z-10 text-sm flex items-center gap-2">Details <i class="fa-solid fa-chevron-right text-[10px] transition-transform group-hover/btn:translate-x-1"></i></span>
-                                </a>
-                            {% else %}
-                                <a href="{% url 'package-quote' %}?package={{ pkg.slug }}" class="group/btn relative px-6 py-3.5 overflow-hidden rounded-2xl bg-white/5 border border-white/10 text-white font-bold transition-all hover:border-primary hover:bg-primary inline-flex items-center gap-2 decoration-0">
-                                    <span class="relative z-10 text-sm flex items-center gap-2">Get Quote <i class="fa-solid fa-paper-plane text-[10px] transition-transform group-hover/btn:translate-x-1"></i></span>
-                                </a>
-                            {% endif %}
+                            <a href="{% url 'package-detail' pkg.slug %}" class="group/btn relative px-6 py-3.5 overflow-hidden rounded-2xl bg-white/5 border border-white/10 text-white font-bold transition-all hover:border-primary hover:bg-primary inline-flex items-center gap-2 decoration-0">
+                                <span class="relative z-10 text-sm flex items-center gap-2">View Details <i class="fa-solid fa-chevron-right text-[10px] transition-transform group-hover/btn:translate-x-1"></i></span>
+                            </a>
                         </div>
                     </div>
                 </div>
