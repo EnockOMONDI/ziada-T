@@ -1,6 +1,13 @@
 from django.contrib import admin
 
-from .models import ContactInquiry, CorporateInquiry, MICEInquiry, StudentTravelInquiry, NGOTravelInquiry
+from .models import (
+    ContactInquiry,
+    CorporateInquiry,
+    MICEInquiry,
+    StudentTravelInquiry,
+    NGOTravelInquiry,
+    PackageQuoteInquiry,
+)
 
 
 @admin.register(ContactInquiry)
@@ -33,3 +40,19 @@ class CorporateInquiryAdmin(admin.ModelAdmin):
     list_display = ("company_name", "full_name", "email", "service_needs", "is_resolved", "created_at")
     list_filter = ("service_needs", "is_resolved", "created_at")
     search_fields = ("company_name", "full_name", "email", "service_needs")
+
+
+@admin.register(PackageQuoteInquiry)
+class PackageQuoteInquiryAdmin(admin.ModelAdmin):
+    list_display = (
+        "package_title",
+        "full_name",
+        "email",
+        "phone",
+        "number_of_travelers",
+        "travel_date",
+        "is_resolved",
+        "created_at",
+    )
+    list_filter = ("is_resolved", "created_at", "travel_date")
+    search_fields = ("package_title", "package_slug", "full_name", "email", "phone")

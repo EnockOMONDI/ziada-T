@@ -5,8 +5,8 @@ from .models import Package, Hotel
 
 @admin.register(Package)
 class PackageAdmin(admin.ModelAdmin):
-    list_display = ("title", "slug", "category", "location", "price", "active", "created_at")
-    list_filter = ("category", "active", "created_at")
+    list_display = ("title", "slug", "category", "location", "price", "is_featured", "active", "created_at")
+    list_filter = ("category", "is_featured", "active", "created_at")
     search_fields = ("title", "location", "category", "slug")
     prepopulated_fields = {"slug": ("title",)}
 

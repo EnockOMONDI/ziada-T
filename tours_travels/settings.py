@@ -143,7 +143,7 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="")
 EMAIL_USE_TLS = config("EMAIL_USE_TLS", default=True, cast=bool)
 EMAIL_TIMEOUT = config("EMAIL_TIMEOUT", default=10, cast=int)
 
-EMAIL_RATE_LIMIT_PER_MINUTE = config("EMAIL_RATE_LIMIT_PER_MINUTE", default=10, cast=int)
+EMAIL_RATE_LIMIT_PER_MINUTE = config("EMAIL_RATE_LIMIT_PER_MINUTE", default=60, cast=int)
 EMAIL_RATE_LIMIT_PER_HOUR = config("EMAIL_RATE_LIMIT_PER_HOUR", default=100, cast=int)
 
 GOOGLE_ANALYTICS_ID = config("GOOGLE_ANALYTICS_ID", default="")

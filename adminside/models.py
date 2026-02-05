@@ -14,6 +14,7 @@ class Package(models.Model):
     description = CKEditor5Field(config_name="default", blank=True, default="")
     features = models.JSONField(default=list, blank=True)
     itinerary = models.JSONField(default=list, blank=True)
+    is_featured = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

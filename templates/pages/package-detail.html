@@ -70,17 +70,28 @@
 
                 <div class="lg:col-span-1">
                     <div class="glass p-8 rounded-3xl sticky top-32 border-primary/20">
-                        <div class="mb-6">
-                            <p class="text-gray-400 text-sm font-bold uppercase tracking-widest mb-1">Starting from</p>
-                            <div class="flex items-baseline gap-2">
-                                <span id="pkg-price" class="text-4xl font-black text-white">${{ package.price }}</span>
-                                <span class="text-gray-500 text-sm font-medium">per person</span>
+                        {% if package.is_featured and package.price > 0 %}
+                            <div class="mb-6">
+                                <p class="text-gray-400 text-sm font-bold uppercase tracking-widest mb-1">Starting from</p>
+                                <div class="flex items-baseline gap-2">
+                                    <span id="pkg-price" class="text-4xl font-black text-white">${{ package.price }}</span>
+                                    <span class="text-gray-500 text-sm font-medium">per person</span>
+                                </div>
                             </div>
-                        </div>
-                        <a href="{% url 'contact' %}" class="w-full inline-flex justify-center items-center gap-2 orange-gradient hover:shadow-xl hover:shadow-primary/30 text-white font-black py-4 rounded-xl transition-all uppercase tracking-widest group">
-                            Book This Trip
-                            <i class="fa-solid fa-paper-plane group-hover:translate-x-1 transition-transform"></i>
-                        </a>
+                            <a href="{% url 'package-quote' %}?package={{ package.slug }}" class="w-full inline-flex justify-center items-center gap-2 orange-gradient hover:shadow-xl hover:shadow-primary/30 text-white font-black py-4 rounded-xl transition-all uppercase tracking-widest group">
+                                Book This Trip
+                                <i class="fa-solid fa-paper-plane group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        {% else %}
+                            <div class="mb-6">
+                                <p class="text-gray-400 text-sm font-bold uppercase tracking-widest mb-1">Pricing</p>
+                                <p class="text-3xl font-black text-primary">Get Quote</p>
+                            </div>
+                            <a href="{% url 'package-quote' %}?package={{ package.slug }}" class="w-full inline-flex justify-center items-center gap-2 orange-gradient hover:shadow-xl hover:shadow-primary/30 text-white font-black py-4 rounded-xl transition-all uppercase tracking-widest group">
+                                Request a Quote
+                                <i class="fa-solid fa-paper-plane group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

@@ -152,3 +152,33 @@ def send_corporate_emails(inquiry):
 
     send_email(user_subject, user_html, [inquiry.email] + extra_recipients)
     send_email(admin_subject, admin_html, [settings.ADMIN_EMAIL] + extra_recipients)
+
+
+def send_package_quote_emails(inquiry):
+    user_subject = f"We received your quote request for {inquiry.package_title}"
+    admin_subject = f"New package quote inquiry - {inquiry.package_title}"
+
+    extra_recipients = [
+        email.strip()
+        for email in getattr(settings, "EXTRA_EMAIL_RECIPIENTS", [])
+        if email.strip()
+    ]
+
+    site_url = getattr(settings, "SITE_URL", "").rstrip("/")
+    user_html = render_to_string(
+        "users/emails/package_quote_user_confirmation.html",
+        {
+            "inquiry": inquiry,
+            "site_url": site_url,
+        },
+    )
+    admin_html = render_to_string(
+        "users/emails/package_quote_admin_notification.html",
+        {
+            "inquiry": inquiry,
+            "site_url": site_url,
+        },
+    )
+
+    send_email(user_subject, user_html, [inquiry.email] + extra_recipients)
+    send_email(admin_subject, admin_html, [settings.ADMIN_EMAIL] + extra_recipients)

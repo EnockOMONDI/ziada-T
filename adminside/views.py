@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404, render
+from django.db.models import Count, Min, Q
 
 from .models import Hotel, Package
 
@@ -28,6 +29,36 @@ def about(request):
 
 def corporates(request):
     return render(request, 'pages/corporates.html')
+
+
+def destinations(request):
+    base_qs = Package.objects.filter(active=True).exclude(location="")
+    destination_rows = (
+        base_qs.values("location")
+        .annotate(
+            package_count=Count("id"),
+            starting_from=Min("price", filter=Q(is_featured=True, price__gt=0)),
+        )
+        .order_by("location")
+    )
+
+    destinations_data = []
+    for row in destination_rows:
+        location = row["location"]
+        top_packages = list(
+            base_qs.filter(location=location)
+            .order_by("price", "-created_at")[:2]
+        )
+        destinations_data.append(
+            {
+                "location": location,
+                "package_count": row["package_count"],
+                "starting_from": row["starting_from"],
+                "top_packages": top_packages,
+            }
+        )
+
+    return render(request, "pages/destinations.html", {"destinations": destinations_data})
 
 
 def contact(request):

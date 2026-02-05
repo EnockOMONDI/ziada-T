@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import ContactInquiry, CorporateInquiry
+from .models import ContactInquiry, CorporateInquiry, PackageQuoteInquiry
 
 
 TRAVEL_CATEGORY_CHOICES = (
@@ -8,6 +8,15 @@ TRAVEL_CATEGORY_CHOICES = (
     ("Beach Holiday", "Beach Holiday"),
     ("Corporate Travel", "Corporate Travel"),
     ("Ticketing & Reservations", "Ticketing & Reservations"),
+)
+
+BUDGET_RANGE_CHOICES = (
+    ("Under $1,000", "Under $1,000"),
+    ("$1,000 - $2,500", "$1,000 - $2,500"),
+    ("$2,500 - $5,000", "$2,500 - $5,000"),
+    ("$5,000 - $10,000", "$5,000 - $10,000"),
+    ("Above $10,000", "Above $10,000"),
+    ("Not Sure Yet", "Not Sure Yet"),
 )
 
 
@@ -28,6 +37,9 @@ class ContactForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        self.fields["package_title"].required = True
+        self.fields["package_slug"].required = True
 
         self.fields["full_name"].required = True
         self.fields["full_name"].widget.attrs.update(
@@ -159,6 +171,93 @@ class CorporateInquiryForm(forms.ModelForm):
             {
                 "class": "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary outline-none",
                 "placeholder": "Share your corporate travel requirements, timelines, and priorities.",
+                "rows": 5,
+            }
+        )
+
+
+class PackageQuoteInquiryForm(forms.ModelForm):
+    class Meta:
+        model = PackageQuoteInquiry
+        fields = [
+            "package_title",
+            "package_slug",
+            "package_location",
+            "package_duration",
+            "package_price",
+            "full_name",
+            "email",
+            "phone",
+            "number_of_travelers",
+            "travel_date",
+            "budget_range",
+            "special_requests",
+        ]
+        widgets = {
+            "package_title": forms.HiddenInput(),
+            "package_slug": forms.HiddenInput(),
+            "package_location": forms.HiddenInput(),
+            "package_duration": forms.HiddenInput(),
+            "package_price": forms.HiddenInput(),
+            "travel_date": forms.DateInput(attrs={"type": "date"}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields["full_name"].required = True
+        self.fields["full_name"].widget.attrs.update(
+            {
+                "class": "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary outline-none",
+                "placeholder": "Brian Otieno",
+            }
+        )
+
+        self.fields["email"].required = True
+        self.fields["email"].widget.attrs.update(
+            {
+                "class": "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary outline-none",
+                "placeholder": "brian.otieno@gmail.com",
+            }
+        )
+
+        self.fields["phone"].required = True
+        self.fields["phone"].widget.attrs.update(
+            {
+                "class": "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary outline-none",
+                "placeholder": "07XX XXX XXX",
+            }
+        )
+
+        self.fields["number_of_travelers"].required = True
+        self.fields["number_of_travelers"].widget.attrs.update(
+            {
+                "class": "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary outline-none",
+                "placeholder": "4",
+                "min": "1",
+            }
+        )
+
+        self.fields["travel_date"].required = False
+        self.fields["travel_date"].widget.attrs.update(
+            {
+                "class": "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary outline-none",
+            }
+        )
+
+        self.fields["budget_range"].required = False
+        self.fields["budget_range"].widget = forms.Select(
+            choices=(("", "Select budget range (optional)"),) + BUDGET_RANGE_CHOICES,
+            attrs={
+                "class": "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary outline-none appearance-none",
+            },
+        )
+
+        self.fields["special_requests"].required = False
+        self.fields["special_requests"].widget.attrs.update(
+            {
+                "class": "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary outline-none",
+                "placeholder": "Share preferred dates, room setup, meal needs, or any custom requests.",
                 "rows": 5,
             }
         )

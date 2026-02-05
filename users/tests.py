@@ -2,7 +2,9 @@ from django.core import mail
 from django.test import TestCase, override_settings
 from django.urls import reverse
 
-from .models import ContactInquiry, CorporateInquiry
+from adminside.models import Package
+
+from .models import ContactInquiry, CorporateInquiry, PackageQuoteInquiry
 
 
 @override_settings(
@@ -81,3 +83,53 @@ class CorporateInquiryEmailTests(TestCase):
         to_addresses = {email.to[0] for email in mail.outbox}
         self.assertIn("corp@example.com", to_addresses)
         self.assertIn("info@ziadatoursandtravel.com", to_addresses)
+
+
+@override_settings(
+    EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend",
+    EMAIL_PROVIDER="smtp",
+    DEFAULT_FROM_EMAIL="Ziada Tours and Travel <info@ziadatoursandtravel.com>",
+    ADMIN_EMAIL="info@ziadatoursandtravel.com",
+)
+class PackageQuoteInquiryEmailTests(TestCase):
+    def test_package_quote_saves_and_sends_emails(self):
+        package = Package.objects.create(
+            title="Maasai Mara Safari",
+            slug="maasai-mara-safari",
+            duration="5 days / 4 nights",
+            price=1299,
+            location="Maasai Mara",
+            category="Safari",
+            active=True,
+        )
+
+        payload = {
+            "package_title": package.title,
+            "package_slug": package.slug,
+            "package_location": package.location,
+            "package_duration": package.duration,
+            "package_price": package.price,
+            "full_name": "Quote User",
+            "email": "quote@example.com",
+            "phone": "0700000000",
+            "number_of_travelers": 4,
+            "travel_date": "2026-08-01",
+            "budget_range": "$2,500 - $5,000",
+            "special_requests": "Family-friendly itinerary and private transfer.",
+        }
+
+        response = self.client.post(reverse("package-quote"), data=payload, follow=True)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(PackageQuoteInquiry.objects.count(), 1)
+
+        inquiry = PackageQuoteInquiry.objects.first()
+        self.assertEqual(inquiry.email, payload["email"])
+        self.assertEqual(inquiry.package_title, package.title)
+        self.assertEqual(inquiry.package, package)
+        self.assertEqual(inquiry.number_of_travelers, payload["number_of_travelers"])
+
+        self.assertEqual(len(mail.outbox), 2)
+        subjects = {email.subject for email in mail.outbox}
+        self.assertIn(f"We received your quote request for {package.title}", subjects)
+        self.assertIn(f"New package quote inquiry - {package.title}", subjects)
